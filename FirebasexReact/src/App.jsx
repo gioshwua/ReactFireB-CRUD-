@@ -1,9 +1,20 @@
 import React from 'react';
 import { db } from './FirebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, addDoc } from 'firebase/firestore';
 
 //getDocs returns all the documents from specific collection
 function App() {
+  const [addNew, setNew] = React.useState({
+    name: '',
+    age: 0,
+  });
+
+  const handleChange = (event) => {
+    setNew((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value,
+    }));
+  };
   const [users, setUsers] = React.useState([]); //array sya kasi sa no sql database array ang gamit
   const UserCollectionRef = collection(db, 'users'); //collect data sa users collection lang, since pede marami collection sa database
 
@@ -14,9 +25,27 @@ function App() {
     };
     getData();
   }, []);
-
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    await addDoc(UserCollectionRef, { name: addNew.name, age: addNew.age });
+  };
   return (
     <div>
+      <form onSubmit={handleSubmit}>
+        <input
+          type='text'
+          placeholder='Name'
+          name='name'
+          onChange={handleChange}
+        />
+        <input
+          type='number'
+          placeholder='Age'
+          name='age'
+          onChange={handleChange}
+        />
+        <button>Create User!</button>
+      </form>
       {users.map((user) => {
         return (
           <div key={user.id}>
