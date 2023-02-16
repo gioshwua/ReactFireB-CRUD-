@@ -6,6 +6,7 @@ import {
   addDoc,
   updateDoc,
   doc,
+  deleteDoc,
 } from 'firebase/firestore';
 
 //getDocs returns all the documents from specific collection
@@ -44,6 +45,10 @@ function App() {
     const newField = { age: age + 1 };
     await updateDoc(userDoc, newField);
   };
+  const deleteUser = async (id) => {
+    const userDoc = doc(db, 'users', id);
+    await deleteDoc(userDoc);
+  };
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -72,6 +77,13 @@ function App() {
               }}
             >
               Add Age
+            </button>
+            <button
+              onClick={() => {
+                deleteUser(user.id);
+              }}
+            >
+              Delete User{' '}
             </button>
           </div>
         );
