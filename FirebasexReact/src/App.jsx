@@ -1,6 +1,12 @@
 import React from 'react';
 import { db } from './FirebaseConfig';
-import { collection, getDocs, addDoc } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+} from 'firebase/firestore';
 
 //getDocs returns all the documents from specific collection
 function App() {
@@ -27,7 +33,16 @@ function App() {
   }, []);
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await addDoc(UserCollectionRef, { name: addNew.name, age: addNew.age });
+    await addDoc(UserCollectionRef, {
+      name: addNew.name,
+      age: Number(addNew.age),
+    });
+  };
+
+  const updateUser = async (id, age) => {
+    const userDoc = doc(db, 'users', id);
+    const newField = { age: age + 1 };
+    await updateDoc(userDoc, newField);
   };
   return (
     <div>
@@ -51,6 +66,13 @@ function App() {
           <div key={user.id}>
             <h1>Name:{user.name}</h1>
             <h1>Age:{user.age}</h1>
+            <button
+              onClick={function () {
+                updateUser(user.id, user.age);
+              }}
+            >
+              Add Age
+            </button>
           </div>
         );
       })}
