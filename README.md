@@ -3,6 +3,7 @@
 ## Introduction
 This project is a simple demonstration of how to use Firebase as a Backend-as-a-Service (BaaS) in a React application built with Vite. The primary goal is to showcase how Firebase can handle backend operations seamlessly. The application features a user creation form where you can input a name and age, and upon clicking the "Create User" button, the data is sent to Firebase.
 
+![image](https://github.com/gioshwua/ReactFireB-CRUD-/assets/105263495/fc414635-daf5-4a34-bd40-a77ea9a2c89a)
 
 ## Technologies Used
 Frontend: React with Vite
